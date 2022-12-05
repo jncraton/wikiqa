@@ -182,7 +182,10 @@ if __name__ == "__main__":
         knowledge = ""
         for word in get_words(query):
             for result in search(word):
-                knowledge += f"{result['label']}: {result['description']}\n"
+                try:
+                    knowledge += f"{result['label']}: {result['description']}\n"
+                except KeyError:
+                    pass
 
         response = generate(model, tokenizer, instruction, knowledge, dialog)
         print(f"Computer: {response}")
