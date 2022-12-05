@@ -2,6 +2,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import requests
 import re
 import dateutil.parser
+import argparse
 
 stopwords = set(open("stopwords.txt").read().splitlines())
 
@@ -15,13 +16,6 @@ def get_words(query):
     words = set(re.split(r"[\s\.\?\!]+", query.lower()))
 
     return words - stopwords
-
-
-model = "microsoft/GODEL-v1_1-base-seq2seq"
-# model = "microsoft/GODEL-v1_1-large-seq2seq"
-
-tokenizer = AutoTokenizer.from_pretrained(model)
-model = AutoModelForSeq2SeqLM.from_pretrained(model, low_cpu_mem_usage=True)
 
 
 def search(query):
@@ -142,7 +136,7 @@ def answer(question):
     return "\n".join(answers)
 
 
-def generate(instruction, knowledge, dialog):
+def generate(model, tokenizer, instruction, knowledge, dialog):
     if knowledge != "":
         knowledge = "[KNOWLEDGE] " + knowledge
     dialog = " EOS ".join(dialog)
@@ -156,6 +150,24 @@ def generate(instruction, knowledge, dialog):
 
 
 if __name__ == "__main__":
+    ap = argparse.ArgumentParser(description="Rename files to a standard format")
+    ap.add_argument(
+        "--large",
+        action="store_true",
+        help="Use large model",
+    )
+    args = ap.parse_args()
+
+    if args.large:
+        model_name = "microsoft/GODEL-v1_1-large-seq2seq"
+    else:
+        model_name = "microsoft/GODEL-v1_1-base-seq2seq"
+
+    print(f"Loading {model_name}...")
+
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_name, low_cpu_mem_usage=True)
+
     dialog = []
 
     while True:
@@ -172,5 +184,5 @@ if __name__ == "__main__":
             for result in search(word):
                 knowledge += f"{result['label']}: {result['description']}\n"
 
-        response = generate(instruction, knowledge, dialog)
+        response = generate(model, tokenizer, instruction, knowledge, dialog)
         print(f"Computer: {response}")
