@@ -156,6 +156,11 @@ if __name__ == "__main__":
         action="store_true",
         help="Use large model",
     )
+    ap.add_argument(
+        "--wikidata",
+        action="store_true",
+        help="Download knowledge from Wikidata",
+    )
     args = ap.parse_args()
 
     if args.large:
@@ -180,12 +185,13 @@ if __name__ == "__main__":
         dialog.append(query)
 
         knowledge = ""
-        for word in get_words(query):
-            for result in search(word):
-                try:
-                    knowledge += f"{result['label']}: {result['description']}\n"
-                except KeyError:
-                    pass
+        if args.wikidata:
+            for word in get_words(query):
+                for result in search(word):
+                    try:
+                        knowledge += f"{result['label']}: {result['description']}\n"
+                    except KeyError:
+                        pass
 
         response = generate(model, tokenizer, instruction, knowledge, dialog)
         print(f"Computer: {response}")
