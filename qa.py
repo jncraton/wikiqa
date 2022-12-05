@@ -2,7 +2,9 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import requests
 import re
 import dateutil.parser
-stopwords = set(open('stopwords.txt').read().splitlines())
+
+stopwords = set(open("stopwords.txt").read().splitlines())
+
 
 def get_words(query):
     """
@@ -10,15 +12,17 @@ def get_words(query):
     ['mass', 'saturn']
     """
 
-    words = set(re.split(r'[\s\.\?\!]+', query.lower()))
+    words = set(re.split(r"[\s\.\?\!]+", query.lower()))
 
     return words - stopwords
+
 
 model = "microsoft/GODEL-v1_1-base-seq2seq"
 # model = "microsoft/GODEL-v1_1-large-seq2seq"
 
 tokenizer = AutoTokenizer.from_pretrained(model)
 model = AutoModelForSeq2SeqLM.from_pretrained(model, low_cpu_mem_usage=True)
+
 
 def search(query):
     """
@@ -149,6 +153,7 @@ def generate(instruction, knowledge, dialog):
     )
     output = tokenizer.decode(outputs[0], skip_special_tokens=True)
     return output
+
 
 if __name__ == "__main__":
     dialog = []
