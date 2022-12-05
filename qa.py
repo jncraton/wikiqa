@@ -164,11 +164,13 @@ if __name__ == "__main__":
             f"Instruction: given a dialog context, you need to response empathically."
         )
         # Leave the knowldge empty
-        knowledge = ""
         query = input("You: ")
         dialog.append(query)
 
-        words = get_words(query)
+        knowledge = ""
+        for word in get_words(query):
+            for result in search(word):
+                knowledge += f"{result['label']}: {result['description']}\n"
 
         response = generate(instruction, knowledge, dialog)
         print(f"Computer: {response}")
