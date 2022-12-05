@@ -100,42 +100,6 @@ def search_prop(query):
     return result["search"][0]
 
 
-def answer(question):
-    """
-    >>> answer("What is the mass of Saturn?")
-    'Mass of Saturn (sixth planet from the Sun and the second-largest planet in the Solar System, after Jupiter) is 568360 yottagram.'
-
-    >>> answer("What is the birthdate of Barack H. Obama?")
-    'Birthdate of Barack Obama (44th president of the United States) is +1961-08-04T00:00:00Z.'
-
-    >>> answer("What is the official website of Anderson, IN?")
-    'Official Website of Anderson (county seat of Madison County, Indiana, United States) is http://www.cityofanderson.com/.'
-    """
-
-    m = re.match("What is the (.*) of (.*)\?", question)
-
-    if m:
-        prop = m.group(1)
-        query = m.group(2)
-    else:
-        return
-
-    prop_id = search_prop(prop)["id"]
-
-    results = search(query)
-
-    answers = []
-
-    for result in results:
-        value = get_prop_value(result["id"], prop_id)
-        if value:
-            answers.append(
-                f"{prop.title()} of {result['label']} ({result['description']}) is {value}."
-            )
-
-    return "\n".join(answers)
-
-
 def generate(model, tokenizer, instruction, knowledge, dialog):
     if knowledge != "":
         knowledge = "[KNOWLEDGE] " + knowledge
