@@ -5,9 +5,11 @@ import dateutil.parser
 import argparse
 
 import spacy
+
 nlp = spacy.load("en_core_web_sm")
 
 stopwords = set(open("stopwords.txt").read().splitlines())
+
 
 def get_proper_nouns(query):
     """Return proper nouns in a query
@@ -24,6 +26,7 @@ def get_proper_nouns(query):
 
     doc = nlp(query)
     return [e.text for e in doc.ents]
+
 
 def get_words(query):
     """
