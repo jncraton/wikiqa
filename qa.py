@@ -4,8 +4,26 @@ import re
 import dateutil.parser
 import argparse
 
+import spacy
+nlp = spacy.load("en_core_web_sm")
+
 stopwords = set(open("stopwords.txt").read().splitlines())
 
+def get_proper_nouns(query):
+    """Return proper nouns in a query
+
+    >>> get_proper_nouns("Who is Joe Biden?")
+    ['Joe Biden']
+
+    >>> get_proper_nouns("The")
+    []
+
+    >>> get_proper_nouns("How many mooons does Saturn have?")
+    ['Saturn']
+    """
+
+    doc = nlp(query)
+    return [e.text for e in doc.ents]
 
 def get_words(query):
     """
@@ -155,7 +173,7 @@ if __name__ == "__main__":
 
         knowledge = ""
         if args.wikidata:
-            for word in get_words(query):
+            for word in get_proper_nouns(query):
                 for result in search(word):
                     try:
                         knowledge += f"{result['label']}: {result['description']}\n"
