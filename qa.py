@@ -176,7 +176,7 @@ if __name__ == "__main__":
         knowledge = ""
         if args.wikidata:
             for word in get_proper_nouns(query):
-                for result in search(word):
+                for result in search(word)[:1]:
                     try:
                         knowledge += f"{result['label']}: {result['description']}\n"
                     except KeyError:
