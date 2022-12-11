@@ -1,7 +1,7 @@
 all:
 
 lint:
-	flake8 qa.py
+	flake8 --max-line-length 88 qa.py
 
 format:
 	black qa.py
