@@ -19,7 +19,7 @@ def get_proper_nouns(query):
     >>> get_proper_nouns("The")
     []
 
-    >>> get_proper_nouns("How many mooons does Saturn have?")
+    >>> get_proper_nouns("How many moons does Saturn have?")
     ['Saturn']
     """
 
