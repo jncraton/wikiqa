@@ -128,13 +128,15 @@ def get_summary(wikidata_id):
     True
     """
     data_result = requests.get(
-        f"https://www.wikidata.org/w/api.php?action=wbgetentities&props=sitelinks/urls&ids={wikidata_id}&format=json"
+        f"https://www.wikidata.org/w/api.php?action=wbgetentities&"
+        f"props=sitelinks/urls&ids={wikidata_id}&format=json"
     ).json()
 
     en_title = data_result["entities"][wikidata_id]["sitelinks"]["enwiki"]["title"]
 
     wiki_result = requests.get(
-        f"https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles={en_title}"
+        f"https://en.wikipedia.org/w/api.php?action=query&prop=extracts&"
+        f"exintro&explaintext&redirects=1&titles={en_title}&format=json"
     ).json()
 
     summary = wiki_result["query"]["pages"].popitem()[1]["extract"]
