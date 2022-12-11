@@ -204,6 +204,8 @@ if __name__ == "__main__":
         if args.wikidata:
             for word in get_proper_nouns(query):
                 for result in search(word)[:1]:
+                    knowledge += get_summary(result["id"])[:2000] + "\n"
+
                     try:
                         knowledge += f"{result['label']}: {result['description']}\n"
                     except KeyError:
