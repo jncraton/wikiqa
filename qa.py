@@ -204,7 +204,7 @@ if __name__ == "__main__":
         if args.wikidata:
             for word in get_proper_nouns(query):
                 for result in search(word)[:1]:
-                    knowledge += get_summary(result["id"])[:2000] + "\n"
+                    knowledge += get_summary(result["id"])[:1500] + "\n"
 
                     try:
                         knowledge += f"{result['label']}: {result['description']}\n"
@@ -213,5 +213,5 @@ if __name__ == "__main__":
         if args.verbose:
             print(f"Knowledge: {knowledge}")
 
-        response = generate(model, tokenizer, instruction, knowledge, dialog)
+        response = generate(model, tokenizer, instruction, knowledge, dialog[:500])
         print(f"Computer: {response}")
