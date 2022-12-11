@@ -194,7 +194,7 @@ if __name__ == "__main__":
     while True:
         # Instruction for a chitchat task
         instruction = (
-            "Instruction: given a dialog context, you need to response empathically."
+            "Instruction: given a dialog context, you need to respond empathically."
         )
         # Leave the knowldge empty
         query = input("You: ")
