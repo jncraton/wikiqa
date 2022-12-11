@@ -120,6 +120,28 @@ def search_prop(query):
     return result["search"][0]
 
 
+def get_summary(wikidata_id):
+    """
+    Return the Wikipedia summary for a given wikidata entity
+
+    >>> 'Democratic Party' in get_summary("Q6279")
+    True
+    """
+    data_result = requests.get(
+        f"https://www.wikidata.org/w/api.php?action=wbgetentities&props=sitelinks/urls&ids={wikidata_id}&format=json"
+    ).json()
+
+    en_title = data_result["entities"][wikidata_id]["sitelinks"]["enwiki"]["title"]
+
+    wiki_result = requests.get(
+        f"https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles={en_title}"
+    ).json()
+
+    summary = wiki_result["query"]["pages"].popitem()[1]["extract"]
+
+    return summary
+
+
 def generate(model, tokenizer, instruction, knowledge, dialog):
     if knowledge != "":
         knowledge = "[KNOWLEDGE] " + knowledge
