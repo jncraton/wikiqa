@@ -131,7 +131,6 @@ def get_summary(wikidata_id):
         f"https://www.wikidata.org/w/api.php?action=wbgetentities&"
         f"props=sitelinks/urls&ids={wikidata_id}&format=json"
     ).json()
-
     en_title = data_result["entities"][wikidata_id]["sitelinks"]["enwiki"]["title"]
 
     wiki_result = requests.get(
