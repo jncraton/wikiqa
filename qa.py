@@ -47,7 +47,8 @@ def search(query):
     """
 
     result = requests.get(
-        f"https://www.wikidata.org/w/api.php?action=wbsearchentities&search={query}&language=en&format=json"
+        f"https://www.wikidata.org/w/api.php?action=wbsearchentities&"
+        f"search={query}&language=en&format=json"
     ).json()
 
     return result["search"]
@@ -65,7 +66,8 @@ def get_label(entity):
     entity = entity.split("/")[-1]
 
     result = requests.get(
-        f"https://www.wikidata.org/w/api.php?action=wbgetentities&ids={entity}&props=labels&languages=en&format=json"
+        f"https://www.wikidata.org/w/api.php?action=wbgetentities&"
+        f"ids={entity}&props=labels&languages=en&format=json"
     ).json()
 
     return result["entities"][entity]["labels"]["en"]["value"]
@@ -77,7 +79,8 @@ def get_prop_value(entity, prop):
     '568360 yottagram'
     """
     result = requests.get(
-        f"https://www.wikidata.org/w/api.php?action=wbgetentities&ids={entity}&props=claims&language=en&format=json"
+        f"https://www.wikidata.org/w/api.php?action=wbgetentities&"
+        f"ids={entity}&props=claims&language=en&format=json"
     ).json()
 
     try:
@@ -96,7 +99,7 @@ def get_prop_value(entity, prop):
 
     try:
         value += " " + get_label(claim["datavalue"]["value"]["unit"])
-    except:
+    except KeyError:
         pass
 
     return value
@@ -114,7 +117,8 @@ def search_prop(query):
     'P1884'
     """
     result = requests.get(
-        f"https://www.wikidata.org/w/api.php?action=wbsearchentities&search={query}&type=property&language=en&format=json"
+        f"https://www.wikidata.org/w/api.php?action=wbsearchentities&"
+        f"search={query}&type=property&language=en&format=json"
     ).json()
 
     return result["search"][0]
@@ -190,7 +194,7 @@ if __name__ == "__main__":
     while True:
         # Instruction for a chitchat task
         instruction = (
-            f"Instruction: given a dialog context, you need to response empathically."
+            "Instruction: given a dialog context, you need to response empathically."
         )
         # Leave the knowldge empty
         query = input("You: ")
