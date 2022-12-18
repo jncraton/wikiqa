@@ -235,7 +235,7 @@ if __name__ == "__main__":
                     summary = get_summary(result["id"])
                     matches = get_topn_similar(query, list(sentencer(summary).sents), 5)
                     for sentence in matches:
-                        knowledge += f"{sentence}"
+                        knowledge += f"{sentence} "
 
         if args.verbose:
             print(f"Knowledge: {knowledge}")
