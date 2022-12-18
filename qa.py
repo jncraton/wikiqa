@@ -228,6 +228,7 @@ if __name__ == "__main__":
     model = AutoModelForSeq2SeqLM.from_pretrained(model_name, low_cpu_mem_usage=True)
 
     dialog = []
+    summaries = ""
 
     while True:
         # Instruction for a chitchat task
@@ -238,14 +239,17 @@ if __name__ == "__main__":
 
         knowledge = ""
         if args.wikidata:
-            for word in get_proper_nouns(query):
-                summaries = ""
-                for result in search(word)[:1]:
-                    summaries += get_summary(result["id"])
+            nouns = get_proper_nouns(query)
 
-                matches = get_topn_similar(query, list(sentencer(summaries).sents), 8)
-                for sentence in matches:
-                    knowledge += f"{sentence} "
+            if nouns:
+                summaries = ""
+                for word in nouns:
+                    for result in search(word)[:1]:
+                        summaries += get_summary(result["id"])
+
+            matches = get_topn_similar(query, list(sentencer(summaries).sents), 8)
+            for sentence in matches:
+                knowledge += f"{sentence} "
 
         if args.verbose:
             print(f"Knowledge: {knowledge}")
