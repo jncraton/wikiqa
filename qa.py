@@ -235,7 +235,7 @@ if __name__ == "__main__":
                 for result in search(word)[:1]:
                     summaries += get_summary(result["id"])
 
-                matches = get_topn_similar(query, list(sentencer(summaries).sents), 10)
+                matches = get_topn_similar(query, list(sentencer(summaries).sents), 8)
                 for sentence in matches:
                     knowledge += f"{sentence} "
 
