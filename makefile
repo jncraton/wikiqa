@@ -9,5 +9,9 @@ lint:
 format:
 	black qa.py
 
+ci:
+	pip3 install -r requirements.txt
+	make test
+
 clean:
 	rm -rf __pycache__
