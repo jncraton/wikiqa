@@ -10,10 +10,12 @@ from spacy.lang.en import English
 sentencer = English()
 sentencer.add_pipe("sentencizer")
 
+print("Loading Spacy NLP model...")
 nlp = spacy.load("en_core_web_sm")
 
 stopwords = set(open("stopwords.txt").read().splitlines())
 
+print("Loading embedding model...")
 embedding_model = SentenceTransformer(
     "flax-sentence-embeddings/all_datasets_v4_MiniLM-L6"
 )
