@@ -1,4 +1,6 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from sentence_transformers import SentenceTransformer
+import numpy as np
 import requests
 import re
 import argparse
@@ -8,6 +10,10 @@ import spacy
 nlp = spacy.load("en_core_web_sm")
 
 stopwords = set(open("stopwords.txt").read().splitlines())
+
+embedding_model = SentenceTransformer(
+    "flax-sentence-embeddings/all_datasets_v4_MiniLM-L6"
+)
 
 
 def get_proper_nouns(query):
@@ -160,6 +166,27 @@ def generate(model, tokenizer, instruction, knowledge, dialog):
     return output
 
 
+def cos_sim(a, b):
+    return np.matmul(a, np.transpose(b)) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+
+def get_topn_similar(anchor, inputs, n=1):
+    """
+    >>> get_topn_similar("What is Mars?", ["Mars is planet", "The sun is hot"])
+    ['Mars is a planet']
+
+    >>> get_topn_similar("Where is Paris?", ["Paris is rainy", "Paris is in France"])
+    ['Paris is in France']
+    """
+    anchor_emb = embedding_model.encode(anchor)[None, :]
+    inputs_emb = embedding_model.encode(inputs)
+
+    similarities = list(zip(np.squeeze(cos_sim(anchor_emb, inputs_emb)), inputs))
+    top_n = sorted(similarities, key=lambda s: -s[0])[:n]
+
+    return [s[1] for s in top_n]
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Rename files to a standard format")
     ap.add_argument(
@@ -193,9 +220,7 @@ if __name__ == "__main__":
 
     while True:
         # Instruction for a chitchat task
-        instruction = (
-            "Instruction: given a dialog context and related knowledge, you need to respond safely based on the knowledge."
-        )
+        instruction = "Instruction: given a dialog context and related knowledge, you need to respond safely based on the knowledge."
         # Leave the knowldge empty
         query = input("You: ")
         dialog.append(query)
