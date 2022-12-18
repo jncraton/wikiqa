@@ -232,10 +232,6 @@ if __name__ == "__main__":
         if args.wikidata:
             for word in get_proper_nouns(query):
                 for result in search(word)[:1]:
-                    try:
-                        knowledge += f"{result['label']}: {result['description']}\n"
-                    except KeyError:
-                        pass
                     summary = get_summary(result["id"])
                     matches = get_topn_similar(query, list(sentencer(summary).sents), 5)
                     for sentence in matches:
