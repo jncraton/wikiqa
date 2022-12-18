@@ -11,6 +11,7 @@ format:
 
 ci:
 	pip3 install -r requirements.txt
+	make lint
 	make test
 
 clean:
