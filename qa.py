@@ -201,12 +201,12 @@ def get_topn_similar(anchor, inputs, n=1):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Rename files to a standard format")
     ap.add_argument(
-        "--large",
+        "--small",
         action="store_true",
         help="Use large model",
     )
     ap.add_argument(
-        "--wikidata",
+        "--offline",
         action="store_true",
         help="Download knowledge from Wikidata",
     )
@@ -217,10 +217,10 @@ if __name__ == "__main__":
     )
     args = ap.parse_args()
 
-    if args.large:
-        model_name = "microsoft/GODEL-v1_1-large-seq2seq"
-    else:
+    if args.small:
         model_name = "microsoft/GODEL-v1_1-base-seq2seq"
+    else:
+        model_name = "microsoft/GODEL-v1_1-large-seq2seq"
 
     print(f"Loading {model_name}...")
 
@@ -238,7 +238,7 @@ if __name__ == "__main__":
         dialog.append(query)
 
         knowledge = ""
-        if args.wikidata:
+        if not args.offline:
             nouns = get_proper_nouns(query)
 
             if nouns:
