@@ -231,11 +231,13 @@ if __name__ == "__main__":
         knowledge = ""
         if args.wikidata:
             for word in get_proper_nouns(query):
+                summaries = ""
                 for result in search(word)[:1]:
-                    summary = get_summary(result["id"])
-                    matches = get_topn_similar(query, list(sentencer(summary).sents), 5)
-                    for sentence in matches:
-                        knowledge += f"{sentence} "
+                    summaries += get_summary(result["id"])
+
+                matches = get_topn_similar(query, list(sentencer(summaries).sents), 10)
+                for sentence in matches:
+                    knowledge += f"{sentence} "
 
         if args.verbose:
             print(f"Knowledge: {knowledge}")
