@@ -1,6 +1,8 @@
 WikiQA
 ======
 
+[![Build](https://github.com/jncraton/wikiqa/actions/workflows/build.yml/badge.svg)](https://github.com/jncraton/wikiqa/actions/workflows/build.yml)
+
 Answer simple questions using open language models and Wikipedia.
 
 Operation
