@@ -163,7 +163,7 @@ def generate(model, tokenizer, instruction, knowledge, dialog):
     query = f"{instruction} [CONTEXT] {dialog} {knowledge}"
     input_ids = tokenizer(f"{query}", return_tensors="pt").input_ids
     outputs = model.generate(
-        input_ids, max_length=128, min_length=8, top_p=0.9, do_sample=True
+        input_ids, max_length=512, min_length=8, top_p=0.9, do_sample=True
     )
     output = tokenizer.decode(outputs[0], skip_special_tokens=True)
     return output
