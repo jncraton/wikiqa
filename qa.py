@@ -175,12 +175,18 @@ def cos_sim(a, b):
 
 def get_topn_similar(anchor, inputs, n=1):
     """
-    >>> get_topn_similar("What is Mars?", ["Mars is planet", "The sun is hot"])
+    >>> get_topn_similar("What is Mars?", ["Mars is a planet", "The sun is hot"])
     ['Mars is a planet']
 
     >>> get_topn_similar("Where is Paris?", ["Paris is rainy", "Paris is in France"])
     ['Paris is in France']
+
+    >>> get_topn_similar("Nothing", [])
+    []
     """
+    if len(inputs) == 0:
+        return []
+
     anchor_emb = embedding_model.encode(anchor)[None, :]
     inputs_emb = embedding_model.encode(inputs)
 
