@@ -2,3 +2,5 @@ torch
 transformers
 sentence_transformers
 spacy
+flake8
+black
