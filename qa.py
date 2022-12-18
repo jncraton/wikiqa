@@ -242,5 +242,5 @@ if __name__ == "__main__":
         if args.verbose:
             print(f"Knowledge: {knowledge}")
 
-        response = generate(model, tokenizer, instruction, knowledge, dialog[:500])
+        response = generate(model, tokenizer, instruction, knowledge, dialog[-2:])
         print(f"Computer: {response}")
