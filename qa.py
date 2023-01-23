@@ -15,9 +15,7 @@ nlp = spacy.load("en_core_web_sm")
 stopwords = set(open("stopwords.txt").read().splitlines())
 
 print("Loading embedding model...")
-embedding_model = SentenceTransformer(
-    "multi-qa-MiniLM-L6-cos-v1"
-)
+embedding_model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")
 
 
 def get_proper_nouns(query):
@@ -189,7 +187,7 @@ def get_topn_similar(anchor, inputs, n=1):
 
     matches = util.semantic_search(anchor_emb, inputs_emb, top_k=n)
 
-    return [inputs[m['corpus_id']] for m in matches[0]]
+    return [inputs[m["corpus_id"]] for m in matches[0]]
 
 
 if __name__ == "__main__":
