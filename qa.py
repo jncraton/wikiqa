@@ -231,12 +231,10 @@ if __name__ == "__main__":
     summaries = ""
 
     while True:
-        # Instruction for a chitchat task
         instruction = (
             "Instruction: given a dialog context and related knowledge, "
             "you need to answer the question based on the knowledge."
         )
-        # Leave the knowldge empty
         query = input("You: ")
         dialog.append(query)
 
