@@ -199,11 +199,11 @@ def get_topn_similar(anchor, inputs, n=1):
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(description="Rename files to a standard format")
+    ap = argparse.ArgumentParser(description="Answer questions using external data")
     ap.add_argument(
         "--small",
         action="store_true",
-        help="Use large model",
+        help="Use small model",
     )
     ap.add_argument(
         "--offline",
