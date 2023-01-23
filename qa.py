@@ -1,6 +1,5 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-from sentence_transformers import SentenceTransformer
-import numpy as np
+from sentence_transformers import SentenceTransformer, util
 import requests
 import re
 import argparse
@@ -171,10 +170,6 @@ def generate(model, tokenizer, instruction, knowledge, dialog):
     return output
 
 
-def cos_sim(a, b):
-    return np.matmul(a, np.transpose(b)) / (np.linalg.norm(a) * np.linalg.norm(b))
-
-
 def get_topn_similar(anchor, inputs, n=1):
     """
     >>> get_topn_similar("What is Mars?", ["Mars is a planet", "The sun is hot"])
@@ -192,10 +187,9 @@ def get_topn_similar(anchor, inputs, n=1):
     anchor_emb = embedding_model.encode(anchor)[None, :]
     inputs_emb = embedding_model.encode(inputs)
 
-    similarities = list(zip(np.squeeze(cos_sim(anchor_emb, inputs_emb)), inputs))
-    top_n = sorted(similarities, key=lambda s: -s[0])[:n]
+    matches = util.semantic_search(anchor_emb, inputs_emb, top_k=n)
 
-    return [s[1] for s in top_n]
+    return [inputs[m['corpus_id']] for m in matches[0]]
 
 
 if __name__ == "__main__":
