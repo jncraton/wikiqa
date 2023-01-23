@@ -17,6 +17,11 @@ The high-level operation of the application is as follows:
 5. Pass the query and the related knowledge to a language model fine-tuned for dialog question answering.
 6. Hopefully get an accurate response back from the model based on the knowledge.
 
+Resources
+---------
+
+- [Open Embedding Model Comparison](https://www.sbert.net/docs/pretrained_models.html)
+
 Credits
 -------
 
