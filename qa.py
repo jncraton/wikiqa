@@ -184,7 +184,7 @@ def get_topn_similar(anchor, inputs, n=1):
     if len(inputs) == 0:
         return []
 
-    anchor_emb = embedding_model.encode(anchor)[None, :]
+    anchor_emb = embedding_model.encode(anchor)
     inputs_emb = embedding_model.encode(inputs)
 
     matches = util.semantic_search(anchor_emb, inputs_emb, top_k=n)
@@ -242,7 +242,8 @@ if __name__ == "__main__":
                     for result in search(word)[:1]:
                         summaries += get_summary(result["id"])
 
-            matches = get_topn_similar(query, list(sentencer(summaries).sents), 8)
+            inputs = [str(s) for s in sentencer(summaries).sents]
+            matches = get_topn_similar(query, inputs, 8)
             for sentence in matches:
                 knowledge += f"{sentence} "
 
