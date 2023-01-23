@@ -17,7 +17,7 @@ stopwords = set(open("stopwords.txt").read().splitlines())
 
 print("Loading embedding model...")
 embedding_model = SentenceTransformer(
-    "flax-sentence-embeddings/all_datasets_v4_MiniLM-L6"
+    "multi-qa-MiniLM-L6-cos-v1"
 )
 
 
