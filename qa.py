@@ -155,12 +155,14 @@ def get_summary(wikidata_id):
     return summary
 
 
-def generate(model, tokenizer, instruction, knowledge, dialog):
+def generate(model, tokenizer, instruction, knowledge, dialog, verbose=False):
     if knowledge != "":
         knowledge = "[KNOWLEDGE] " + knowledge
     dialog = " EOS ".join(dialog)
-    query = f"{instruction} [CONTEXT] {dialog} {knowledge}"
-    input_ids = tokenizer(f"{query}", return_tensors="pt").input_ids
+    prompt = f"{instruction} [CONTEXT] {dialog} {knowledge}"
+    if verbose:
+        print(f"\nPrompt:\n{prompt}\n\n")
+    input_ids = tokenizer(f"{prompt}", return_tensors="pt").input_ids
     outputs = model.generate(
         input_ids, max_length=512, min_length=8, top_p=0.9, do_sample=True
     )
@@ -245,8 +247,5 @@ if __name__ == "__main__":
             for sentence in matches:
                 knowledge += f"{sentence} "
 
-        if args.verbose:
-            print(f"Knowledge: {knowledge}")
-
-        response = generate(model, tokenizer, instruction, knowledge, dialog[-2:])
+        response = generate(model, tokenizer, instruction, knowledge, dialog[-2:], args.verbose)
         print(f"Computer: {response}")
