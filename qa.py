@@ -223,6 +223,8 @@ if __name__ == "__main__":
 
     dialog = []
     summaries = ""
+    sentences = []
+    knowledge = []
 
     while True:
         instruction = (
@@ -232,15 +234,14 @@ if __name__ == "__main__":
         query = input("You: ")
         dialog.append(query)
 
-        knowledge = []
         if not args.offline:
             nouns = get_proper_nouns(query)
 
             if nouns:
+                knowledge = []
                 if args.verbose:
                     print(f"Searching Wikidata for information on {nouns}...")
 
-                sentences = []
                 for word in nouns:
                     for result in search(word)[:1]:
                         if args.verbose:
