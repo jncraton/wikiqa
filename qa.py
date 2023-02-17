@@ -236,6 +236,9 @@ if __name__ == "__main__":
         if not args.offline:
             nouns = get_proper_nouns(query)
 
+            if args.verbose:
+                print(f"Found proper nouns: {nouns}")
+
             if nouns:
                 summaries = ""
                 for word in nouns:
