@@ -247,4 +247,5 @@ if __name__ == "__main__":
                 knowledge = get_topn_similar(query, sentences, 8)
 
         response = generate(model, tokenizer, instruction, ' '.join(knowledge), dialog[-2:], args.verbose)
+        dialog.append(response)
         print(f"Computer: {response}")
