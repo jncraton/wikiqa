@@ -243,9 +243,18 @@ if __name__ == "__main__":
                 sentences = []
                 for word in nouns:
                     for result in search(word)[:1]:
-                        sentences +=  [str(s) for s in sentencer(get_summary(result["id"])).sents]
+                        sentences += [
+                            str(s) for s in sentencer(get_summary(result["id"])).sents
+                        ]
                 knowledge = get_topn_similar(query, sentences, 8)
 
-        response = generate(model, tokenizer, instruction, ' '.join(knowledge), dialog[-4:], args.verbose)
+        response = generate(
+            model,
+            tokenizer,
+            instruction,
+            " ".join(knowledge),
+            dialog[-4:],
+            args.verbose,
+        )
         dialog.append(response)
         print(f"Computer: {response}")
