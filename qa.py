@@ -232,7 +232,7 @@ if __name__ == "__main__":
         query = input("You: ")
         dialog.append(query)
 
-        knowledge = ""
+        knowledge = []
         if not args.offline:
             nouns = get_proper_nouns(query)
 
@@ -245,10 +245,8 @@ if __name__ == "__main__":
                     for result in search(word)[:1]:
                         summaries += get_summary(result["id"])
 
-            inputs = [str(s) for s in sentencer(summaries).sents]
-            matches = get_topn_similar(query, inputs, 8)
-            for sentence in matches:
-                knowledge += f"{sentence} "
+                inputs = [str(s) for s in sentencer(summaries).sents]
+                knowledge = get_topn_similar(query, inputs, 8)
 
-        response = generate(model, tokenizer, instruction, knowledge, dialog[-2:], args.verbose)
+        response = generate(model, tokenizer, instruction, ' '.join(knowledge), dialog[-2:], args.verbose)
         print(f"Computer: {response}")
