@@ -224,7 +224,6 @@ if __name__ == "__main__":
 
     dialog = []
     summaries = ""
-    sentences = []
     knowledge = []
 
     while True:
@@ -240,6 +239,7 @@ if __name__ == "__main__":
 
             if nouns:
                 knowledge = []
+                sentences = []
                 if args.verbose:
                     print(f"Searching Wikidata for information on {nouns}...")
 
