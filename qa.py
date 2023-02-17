@@ -240,13 +240,11 @@ if __name__ == "__main__":
                 print(f"Searching Wikidata for information on {nouns}...")
 
             if nouns:
-                summaries = ""
+                sentences = []
                 for word in nouns:
                     for result in search(word)[:1]:
-                        summaries += get_summary(result["id"])
-
-                inputs = [str(s) for s in sentencer(summaries).sents]
-                knowledge = get_topn_similar(query, inputs, 8)
+                        sentences +=  [str(s) for s in sentencer(get_summary(result["id"])).sents]
+                knowledge = get_topn_similar(query, sentences, 8)
 
         response = generate(model, tokenizer, instruction, ' '.join(knowledge), dialog[-2:], args.verbose)
         print(f"Computer: {response}")
