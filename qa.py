@@ -237,7 +237,7 @@ if __name__ == "__main__":
             nouns = get_proper_nouns(query)
 
             if args.verbose:
-                print(f"Found proper nouns: {nouns}")
+                print(f"Searching Wikidata for information on {nouns}...")
 
             if nouns:
                 summaries = ""
