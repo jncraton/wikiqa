@@ -246,6 +246,6 @@ if __name__ == "__main__":
                         sentences +=  [str(s) for s in sentencer(get_summary(result["id"])).sents]
                 knowledge = get_topn_similar(query, sentences, 8)
 
-        response = generate(model, tokenizer, instruction, ' '.join(knowledge), dialog[-2:], args.verbose)
+        response = generate(model, tokenizer, instruction, ' '.join(knowledge), dialog[-4:], args.verbose)
         dialog.append(response)
         print(f"Computer: {response}")
