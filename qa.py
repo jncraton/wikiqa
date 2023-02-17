@@ -227,7 +227,7 @@ if __name__ == "__main__":
     while True:
         instruction = (
             "Instruction: given a dialog context and related knowledge, "
-            "you need to answer the question based on the knowledge."
+            "you need to answer the question conversationally based on the knowledge."
         )
         query = input("You: ")
         dialog.append(query)
