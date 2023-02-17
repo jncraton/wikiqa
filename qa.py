@@ -258,7 +258,8 @@ if __name__ == "__main__":
             model,
             tokenizer,
             instruction,
-            f"My name is Q. I am a sophisticated AI agent. Today is {now} " + " ".join(knowledge),
+            f"My name is Q. I am a sophisticated AI agent. Today is {now} "
+            + " ".join(knowledge),
             dialog[-4:],
             args.verbose,
         )
