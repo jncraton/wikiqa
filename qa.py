@@ -236,13 +236,15 @@ if __name__ == "__main__":
         if not args.offline:
             nouns = get_proper_nouns(query)
 
-            if args.verbose:
-                print(f"Searching Wikidata for information on {nouns}...")
-
             if nouns:
+                if args.verbose:
+                    print(f"Searching Wikidata for information on {nouns}...")
+
                 sentences = []
                 for word in nouns:
                     for result in search(word)[:1]:
+                        if args.verbose:
+                            print(f"Getting summary for {word} ({result['id']})")
                         sentences += [
                             str(s) for s in sentencer(get_summary(result["id"])).sents
                         ]
