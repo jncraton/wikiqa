@@ -5,6 +5,7 @@ import re
 import argparse
 import spacy
 from spacy.lang.en import English
+from datetime import datetime
 
 sentencer = English()
 sentencer.add_pipe("sentencizer")
@@ -251,11 +252,13 @@ if __name__ == "__main__":
                         ]
                 knowledge = get_topn_similar(query, sentences, 8)
 
+        now = datetime.now().strftime("%A, %d %B %Y %I:%M %p")
+
         response = generate(
             model,
             tokenizer,
             instruction,
-            " ".join(knowledge),
+            f"Today is {now} " + " ".join(knowledge),
             dialog[-4:],
             args.verbose,
         )
