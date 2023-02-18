@@ -18,7 +18,6 @@ stopwords = set(open("stopwords.txt").read().splitlines())
 print("Loading embedding model...")
 embedding_model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")
 
-
 def get_proper_nouns(query):
     """Return proper nouns in a query
 
@@ -157,12 +156,15 @@ def get_summary(wikidata_id):
 
 
 def generate(model, tokenizer, instruction, knowledge, dialog, verbose=False):
-    if knowledge != "":
-        knowledge = "[KNOWLEDGE] " + knowledge
-    dialog = " EOS ".join(dialog)
-    prompt = f"{instruction} [CONTEXT] {dialog} {knowledge}"
+    merged_dialog = ""
+    for i, turn in enumerate(dialog):
+        if i % 2:
+            merged_dialog += f"Prof Craton: {turn}\n"
+        else:
+            merged_dialog += f"Computer: {turn}\n"
+    prompt = f"{knowledge}\n{instruction}{merged_dialog}Computer: "
     if verbose:
-        print(f"\nPrompt:\n{prompt}\n\n")
+        print(f"\nPrompt:\n{prompt}\n")
     input_ids = tokenizer(f"{prompt}", return_tensors="pt").input_ids
     outputs = model.generate(
         input_ids, max_length=512, min_length=8, top_p=0.9, do_sample=True
@@ -213,25 +215,26 @@ if __name__ == "__main__":
     args = ap.parse_args()
 
     if args.small:
-        model_name = "microsoft/GODEL-v1_1-base-seq2seq"
+        model_name = "google/flan-t5-base"
     else:
-        model_name = "microsoft/GODEL-v1_1-large-seq2seq"
+        model_name = "google/flan-t5-large"
 
     print(f"Loading {model_name}...")
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSeq2SeqLM.from_pretrained(model_name, low_cpu_mem_usage=True)
 
-    dialog = []
+    dialog = ["Please state your request."]
     summaries = ""
     knowledge = []
 
+    print(f"Computer: {dialog[-1]}")
+
     while True:
         instruction = (
-            "Instruction: given a dialog context and related knowledge, "
-            "you need to answer the question conversationally based on the knowledge."
+            "Computer is an AI system created by Prof Craton. Computer always responds helpfully using the above knowledge if needed.\n"
         )
-        query = input("You: ")
+        query = input("Prof Craton: ")
         dialog.append(query)
 
         if not args.offline:
@@ -258,7 +261,7 @@ if __name__ == "__main__":
             model,
             tokenizer,
             instruction,
-            f"My name is Q. I am a sophisticated AI agent. Today is {now} "
+            f"Today is {now}. "
             + " ".join(knowledge),
             dialog[-4:],
             args.verbose,
