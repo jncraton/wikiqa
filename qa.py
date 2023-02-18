@@ -253,7 +253,7 @@ if __name__ == "__main__":
                         sentences += [
                             str(s) for s in sentencer(get_summary(result["id"])).sents
                         ]
-                knowledge = get_topn_similar(query, sentences, 8)
+                knowledge = get_topn_similar(query, sentences, 2)
 
         now = datetime.now().strftime("%A, %d %B %Y %I:%M %p")
 
