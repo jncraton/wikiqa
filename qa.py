@@ -162,7 +162,7 @@ def generate(model, tokenizer, instruction, knowledge, dialog, verbose=False):
             merged_dialog += f"Prof Craton: {turn}\n"
         else:
             merged_dialog += f"Computer: {turn}\n"
-    prompt = f"{knowledge}\n{instruction}{merged_dialog}Computer: "
+    prompt = f"{knowledge}\n\n{instruction}\n\n{merged_dialog}Computer: "
     if verbose:
         print(f"\nPrompt:\n{prompt}\n")
     input_ids = tokenizer(f"{prompt}", return_tensors="pt").input_ids
@@ -232,7 +232,7 @@ if __name__ == "__main__":
 
     while True:
         instruction = (
-            "Computer is an AI system created by Prof Craton. Computer always responds helpfully using the above knowledge if needed.\n"
+            "Computer is an AI system created by Prof Craton. Computer always responds helpfully using the above knowledge if needed."
         )
         query = input("Prof Craton: ")
         dialog.append(query)
