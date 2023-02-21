@@ -161,7 +161,7 @@ def generate(model, tokenizer, instruction, knowledge, dialog, verbose=False):
         if i % 2:
             merged_dialog += f"User: {turn}\n"
         else:
-            merged_dialog += f"Sydney: {turn}\n"
+            merged_dialog += f"Computer: {turn}\n"
     prompt = f"{knowledge}\n\n{instruction}\n\n{merged_dialog}Computer: "
     if verbose:
         print(f"\nPrompt:\n{prompt}\n")
@@ -228,11 +228,11 @@ if __name__ == "__main__":
     summaries = ""
     knowledge = []
 
-    print(f"Sydney: {dialog[-1]}")
+    print(f"Computer: {dialog[-1]}")
 
     while True:
         instruction = (
-            "Sydney is an AI system that always responds helpfully."
+            "Computer is an AI system that always responds helpfully."
         )
         query = input("User: ")
         dialog.append(query)
