@@ -227,6 +227,7 @@ if __name__ == "__main__":
     dialog = ["Please state your request."]
     summaries = ""
     knowledge = []
+    sentences = []
 
     print(f"Computer: {dialog[-1]}")
 
@@ -241,7 +242,6 @@ if __name__ == "__main__":
             nouns = get_proper_nouns(query)
 
             if nouns:
-                knowledge = []
                 sentences = []
                 if args.verbose:
                     print(f"Searching Wikidata for information on {nouns}...")
