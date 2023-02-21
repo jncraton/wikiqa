@@ -1,13 +1,13 @@
 all:
 
 test:
-	python3 -m doctest qa.py
+	python3 -m doctest wikiqabot.py
 
 lint:
-	flake8 --max-line-length 88 qa.py
+	flake8 --max-line-length 88 wikiqabot.py
 
 format:
-	black qa.py
+	black wikiqabot.py
 
 ci:
 	pip3 install -r requirements.txt
