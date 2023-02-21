@@ -165,7 +165,7 @@ def generate(model, tokenizer, instruction, knowledge, dialog, verbose=False):
             merged_dialog += f"Computer: {turn}\n"
     prompt = f"{knowledge}\n\n{instruction}\n\n{merged_dialog}Computer: "
     if verbose:
-        print(f"\nPrompt:\n{prompt}\n")
+        print(f"\nPrompt:\n```\n{prompt}\n```\n")
     input_ids = tokenizer(f"{prompt}", return_tensors="pt").input_ids
     outputs = model.generate(
         input_ids, max_length=512, min_length=8, top_p=0.9, do_sample=True
