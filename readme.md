@@ -1,5 +1,5 @@
-WikiQA
-======
+WikiQABot
+=========
 
 [![Build](https://github.com/jncraton/wikiqa/actions/workflows/build.yml/badge.svg)](https://github.com/jncraton/wikiqa/actions/workflows/build.yml)
 
