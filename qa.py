@@ -18,6 +18,7 @@ stopwords = set(open("stopwords.txt").read().splitlines())
 print("Loading embedding model...")
 embedding_model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")
 
+
 def get_proper_nouns(query):
     """Return proper nouns in a query
 
@@ -232,9 +233,7 @@ if __name__ == "__main__":
     print(f"Computer: {dialog[-1]}")
 
     while True:
-        instruction = (
-            "Computer is an AI system that always responds helpfully."
-        )
+        instruction = "Computer is an AI system that always responds helpfully."
         query = input("User: ")
         dialog.append(query)
 
@@ -263,8 +262,7 @@ if __name__ == "__main__":
             model,
             tokenizer,
             instruction,
-            f"Today is {now}. "
-            + " ".join(knowledge),
+            f"Today is {now}. " + " ".join(knowledge),
             dialog[-4:],
             args.verbose,
         )
