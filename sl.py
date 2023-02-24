@@ -27,7 +27,7 @@ st.title('WikiQABot')
 query = st.text_input("Ask me anything!", value="")
 
 if query:
-    prompt = f"Context: {' '.join(get_knowledge(query))}\n\n" \
+    prompt = f"Context: {' '.join(get_knowledge(query, 5))}\n\n" \
              f"Question: {query}\n\n" \
              f"Answer: "
 

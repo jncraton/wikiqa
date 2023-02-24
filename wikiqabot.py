@@ -195,7 +195,7 @@ def get_topn_similar(anchor, inputs, n=1):
 
     return [inputs[m["corpus_id"]] for m in matches[0]]
 
-def get_knowledge(query):
+def get_knowledge(query, n=2):
     nouns = get_proper_nouns(query)
 
     if nouns:
@@ -208,7 +208,7 @@ def get_knowledge(query):
                 ]
 
         if sentences:
-            return get_topn_similar(query, sentences, 2)
+            return get_topn_similar(query, sentences, n)
 
     return []
 
