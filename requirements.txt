@@ -3,5 +3,6 @@ transformers
 accelerate
 sentence_transformers
 spacy
+spacy-transformers
 flake8
 black
