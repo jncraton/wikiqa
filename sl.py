@@ -48,6 +48,6 @@ if query:
          f"Question: {query}\n\n" \
          f"Answer: "
 
-    st.write(prompt)
+    st.expander("Show prompt", expanded=False).write(prompt)
 
     st.write(generate(prompt))
