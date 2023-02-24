@@ -21,12 +21,13 @@ def generate(prompt):
     return output
 
 
-st.title('Chatbot')
+st.title('WikiQABot')
 
-query = st.text_input("User:")
+query = st.text_input("Ask me anything!", value="")
 
 prompt = f"Computer is an AI system that always responds helpfully.\n\n" \
          f"User: {query}\n" \
          f"Computer: "
 
-st.write(generate(prompt))
+if query:
+    st.write(generate(prompt))
