@@ -198,6 +198,8 @@ def get_topn_similar(anchor, inputs, n=1):
 def get_knowledge(query, n=2):
     nouns = get_proper_nouns(query)
 
+    knowledge = [f"Today is {datetime.now().strftime('%A, %d %B %Y %I:%M %p')}."]
+
     if nouns:
         sentences = []
 
@@ -208,10 +210,9 @@ def get_knowledge(query, n=2):
                 ]
 
         if sentences:
-            return get_topn_similar(query, sentences, n)
+            knowledge += get_topn_similar(query, sentences, n)
 
-    return []
-
+    return knowledge
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Answer questions using external data")
@@ -257,13 +258,12 @@ if __name__ == "__main__":
         if not args.offline:
             knowledge = get_knowledge(query) or knowledge
 
-        now = datetime.now().strftime("%A, %d %B %Y %I:%M %p")
 
         response = generate(
             model,
             tokenizer,
             instruction,
-            f"Today is {now}. " + " ".join(knowledge),
+            " ".join(knowledge),
             dialog[-4:],
             args.verbose,
         )
