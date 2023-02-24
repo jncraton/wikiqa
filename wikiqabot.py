@@ -195,6 +195,23 @@ def get_topn_similar(anchor, inputs, n=1):
 
     return [inputs[m["corpus_id"]] for m in matches[0]]
 
+def get_knowledge(query):
+    nouns = get_proper_nouns(query)
+
+    if nouns:
+        sentences = []
+
+        for word in nouns:
+            for result in search(word)[:1]:
+                sentences += [
+                    str(s) for s in sentencer(get_summary(result["id"])).sents
+                ]
+
+        if sentences:
+            return get_topn_similar(query, sentences, 2)
+
+    return []
+
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Answer questions using external data")
@@ -238,23 +255,7 @@ if __name__ == "__main__":
         dialog.append(query)
 
         if not args.offline:
-            nouns = get_proper_nouns(query)
-
-            if nouns:
-                sentences = []
-                if args.verbose:
-                    print(f"Searching Wikidata for information on {nouns}...")
-
-                for word in nouns:
-                    for result in search(word)[:1]:
-                        if args.verbose:
-                            print(f"Getting summary for {word} ({result['id']})")
-                        sentences += [
-                            str(s) for s in sentencer(get_summary(result["id"])).sents
-                        ]
-
-            if sentences:
-                knowledge = get_topn_similar(query, sentences, 2)
+            knowledge = get_knowledge(query) or knowledge
 
         now = datetime.now().strftime("%A, %d %B %Y %I:%M %p")
 
