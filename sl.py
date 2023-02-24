@@ -1,12 +1,9 @@
 import streamlit as st
 
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-from sentence_transformers import SentenceTransformer, util
-
-from wikiqabot import get_proper_nouns, get_summary, get_topn_similar, search, sentencer
 
 @st.cache_resource
-def load_model(model_name = "google/flan-t5-large"):
+def load_model(model_name = "google/flan-t5-small"):
     return (
         AutoTokenizer.from_pretrained(model_name),
         AutoModelForSeq2SeqLM.from_pretrained(model_name, low_cpu_mem_usage=True)
@@ -28,27 +25,7 @@ st.title('WikiQABot')
 query = st.text_input("Ask me anything!", value="")
 
 if query:
-    nouns = get_proper_nouns(query)
-
-    knowledge = []
-
-    if nouns:
-        sentences = []
-
-        for word in nouns:
-            for result in search(word)[:1]:
-                print(f"Getting summary for {word} ({result['id']})")
-                sentences += [
-                    str(s) for s in sentencer(get_summary(result["id"])).sents
-                ]
-
-        if sentences:
-            knowledge = get_topn_similar(query, sentences, 4)
-
-    prompt = f"Context: {' '.join(knowledge)}\n\n" \
-         f"Question: {query}\n\n" \
-         f"Answer: "
-
-    st.write(prompt)
+    prompt = f"Question: {query}\n\n" \
+             f"Answer: "
 
     st.write(generate(prompt))
