@@ -3,7 +3,7 @@ import streamlit as st
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 @st.cache_resource
-def load_model(model_name = "google/flan-t5-large"):
+def load_model(model_name = "google/flan-t5-base"):
     return (
         AutoTokenizer.from_pretrained(model_name),
         AutoModelForSeq2SeqLM.from_pretrained(model_name, low_cpu_mem_usage=True)
